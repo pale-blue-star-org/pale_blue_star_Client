@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class Buttons : MonoBehaviour {
     public GameObject AutoPlayingSignal;//自动播放标志
     public GameObject SaveProfliePanel,LoadProfliePanel;
-    public GameObject SettingsPanel,AboutPanel,MainMenuPanel;
+    public GameObject SettingsPanel,AboutPanel,MainMenuPanel,AboutGame;
     public GameObject TestRead;//剧本控制的脚本所挂载在的物体
     // Use this for initialization
     private void Awake()
@@ -107,6 +107,12 @@ public class Buttons : MonoBehaviour {
                 break;
             case "CloseAbout"://关闭设置面板
                 SettingsPanel.SetActive(false);
+                break;
+            case "AboutGame"://开启关于游戏
+                AboutGame.SetActive(true);
+                break;
+            case "CloseAboutGame"://关闭关于游戏
+                AboutGame.SetActive(false);
                 break;
             case "ExitGame"://退出游戏的按钮
                 Application.Quit();
