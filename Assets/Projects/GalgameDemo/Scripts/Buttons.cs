@@ -18,8 +18,27 @@ public class Buttons : MonoBehaviour {
         LoadProfliePanel = GameObject.Find("LoadProfliePanel");
     }
 
-    
+    private void LoadText()
+    {
+        GameObject tempTestRead = Instantiate(TestRead, Vector3.zero, transform.rotation);//生成新的TestRead来控制脚本读取剧本
+    }
 
+
+    IEnumerator LoadingUICoroutine()
+    {
+        //打印函数第一次调用的时间。
+        Debug.Log("Started Coroutine at timestamp : " + Time.time);
+
+        //生成一个等待5秒的yield指令。
+        yield return new WaitForSeconds(UIController._instance.Loadsecond);
+
+        transform.parent.gameObject.SetActive(false);
+
+        LoadText();
+
+        //等待5秒后再次打印时间。
+        Debug.Log("Finished Coroutine at timestamp : " + Time.time);
+    }
 
     public void OnClickButton()
     {
@@ -29,15 +48,17 @@ public class Buttons : MonoBehaviour {
             case "StartGame":
                 //点击开始游戏
                 UIController._instance.ActiveLoadingWindow();
-                transform.parent.gameObject.SetActive(false);
-                GameObject tempTestRead = Instantiate(TestRead, Vector3.zero, transform.rotation);//生成新的TestRead来控制脚本读取剧本
-                
+
+                //启动我们在下面定义的名为 LoadingUICoroutine 的协程。
+                StartCoroutine(LoadingUICoroutine());
+
                 break;
             case "Continue":
                 //继续游戏
                 UIController._instance.ActiveLoadingWindow();
-                transform.parent.gameObject.SetActive(false);
-                tempTestRead = Instantiate(TestRead, Vector3.zero, transform.rotation);
+
+                //启动我们在下面定义的名为 LoadingUICoroutine 的协程。
+                StartCoroutine(LoadingUICoroutine());
                 GameController._instance.LoadData("0");//读取第一个剧本
 
                 break;
