@@ -17,16 +17,21 @@ public class UIController : MonoBehaviour {
     public bool showTalkTexting = false;
     public GameObject BgmVolume, VoiceVolume, TextSpeed;//手动拖
     public GameObject SettingsPanel;
+    public GameObject LoadingWindow;
 
     //协程的公共变量，由于stopCorution无法停止带参数的协程，所以在获得参数后设置为公共变量再在协程中使用这些公共变量
     //也可用其他方法，但这是比较简单的一种
     public string text;
     public float showTextSpeed=8;//每秒显示的字的个数
+    public float Loadsecond = 3;
     private string newBgPath;
     private float durationTime;
 
+    private float waitTime;
+    private bool ActiveLoadTimer;
+
     //private string LoadPicturePosition;
-    
+
     // Use this for initialization
     private void Awake()
     {
@@ -45,6 +50,12 @@ public class UIController : MonoBehaviour {
     void Start () {
         
 	}
+    public void ActiveLoadingWindow()
+    {
+        LoadingWindow.SetActive(true);
+        ActiveLoadTimer=true;
+
+    }
     public void InitSettingsPanel()//初始化设置面板,在打开设置面板后将slider的值调整到正确的位置
     {
         BgmVolume.transform.Find("Slider").GetComponent<Slider>().value = GameObject.Find("BGMController").GetComponent<AudioSource>().volume;
@@ -252,12 +263,31 @@ public class UIController : MonoBehaviour {
         UIController._instance.SwitchWindow("on");
     }
 
+    public void LoadUITimer()
+    {
+        //计时器
+        if (ActiveLoadTimer == true)
+        {
+            if (Loadsecond <= 0)
+            {
+                LoadingWindow.SetActive(false);
+                return;
+            }
+            waitTime += Time.deltaTime;
+            if (waitTime >= 1)
+            {
+                Loadsecond--;
+                waitTime = 0;
+            }
+        }
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))//按下escape按钮是调出设置面板
         {
-            
+
             SettingsPanel.SetActive(!SettingsPanel.activeInHierarchy);
         }
+        LoadUITimer();
     }
 }

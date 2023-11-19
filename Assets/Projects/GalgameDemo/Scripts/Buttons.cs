@@ -28,12 +28,14 @@ public class Buttons : MonoBehaviour {
         {
             case "StartGame":
                 //点击开始游戏
+                UIController._instance.ActiveLoadingWindow();
                 transform.parent.gameObject.SetActive(false);
                 GameObject tempTestRead = Instantiate(TestRead, Vector3.zero, transform.rotation);//生成新的TestRead来控制脚本读取剧本
                 
                 break;
             case "Continue":
                 //继续游戏
+                UIController._instance.ActiveLoadingWindow();
                 transform.parent.gameObject.SetActive(false);
                 tempTestRead = Instantiate(TestRead, Vector3.zero, transform.rotation);
                 GameController._instance.LoadData("0");//读取第一个剧本

@@ -12137,6 +12137,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1008969525}
   m_CullTransparentMesh: 1
+--- !u!1 &1012981895 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4142826567245113227, guid: 79ae622f4c23c47449fc3ea70abaca51,
+    type: 3}
+  m_PrefabInstance: {fileID: 1559584619}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1019068557
 GameObject:
   m_ObjectHideFlags: 0
@@ -19688,6 +19694,11 @@ PrefabInstance:
       propertyPath: LogScrollBar
       value: 
       objectReference: {fileID: 384658882}
+    - target: {fileID: 114340930883706338, guid: 10c4911111da1e84d9e915015b083990,
+        type: 3}
+      propertyPath: LoadingWindow
+      value: 
+      objectReference: {fileID: 1012981895}
     - target: {fileID: 114340930883706338, guid: 10c4911111da1e84d9e915015b083990,
         type: 3}
       propertyPath: SettingsPanel
