@@ -18,6 +18,12 @@ public class Buttons : MonoBehaviour {
     public GameObject qualityManager;
     // Use this for initialization
 
+    private void AddListener()
+    {
+        qualityManager = GameObject.Find("QualityManager");
+        Toggle VSynctoggle = GameObject.Find("VsyncSettings").GetComponent<Toggle>();
+        VSynctoggle.onValueChanged.AddListener(OnVSynctoggleToggleValueChanged);
+    }
     private void Awake()
     {
         SaveProfliePanel = GameObject.Find("SaveProfliePanel");
@@ -25,9 +31,7 @@ public class Buttons : MonoBehaviour {
     }
     private void Start()
     {
-        qualityManager = GameObject.Find("QualityManager");
-        Toggle VSynctoggle = GameObject.Find("VsyncSettings").GetComponent<Toggle>();
-        VSynctoggle.onValueChanged.AddListener(OnVSynctoggleToggleValueChanged);
+        AddListener();
 
     }
     
