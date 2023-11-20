@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks.Triggers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +13,9 @@ public class Buttons : MonoBehaviour {
     public GameObject SaveProfliePanel,LoadProfliePanel;
     public GameObject SettingsPanel,AboutPanel,MainMenuPanel,AboutGame;
     public GameObject TestRead;//剧本控制的脚本所挂载在的物体
+    public Toggle VSynctoggle;
+
+    public GameObject qualityManager;
     // Use this for initialization
 
     private void Awake()
@@ -18,7 +23,28 @@ public class Buttons : MonoBehaviour {
         SaveProfliePanel = GameObject.Find("SaveProfliePanel");
         LoadProfliePanel = GameObject.Find("LoadProfliePanel");
     }
+    private void Start()
+    {
+        qualityManager = GameObject.Find("QualityManager");
+        Toggle VSynctoggle = GameObject.Find("VsyncSettings").GetComponent<Toggle>();
+        VSynctoggle.onValueChanged.AddListener(OnVSynctoggleToggleValueChanged);
 
+    }
+    
+
+    public void OnVSynctoggleToggleValueChanged(bool isOn)
+    {
+        if(isOn)
+        {
+            qualityManager.SendMessage("EnableVSync");
+
+        }
+        if(isOn == false) 
+        {
+            qualityManager.SendMessage("DisableVSync");
+            
+        }
+    }
     private void LoadText()
     {
         GameObject tempTestRead = Instantiate(TestRead, Vector3.zero, transform.rotation);//生成新的TestRead来控制脚本读取剧本
