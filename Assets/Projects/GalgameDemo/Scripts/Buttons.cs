@@ -12,6 +12,7 @@ public class Buttons : MonoBehaviour {
     public GameObject SettingsPanel,AboutPanel,MainMenuPanel,AboutGame;
     public GameObject TestRead;//剧本控制的脚本所挂载在的物体
     // Use this for initialization
+
     private void Awake()
     {
         SaveProfliePanel = GameObject.Find("SaveProfliePanel");
@@ -23,6 +24,43 @@ public class Buttons : MonoBehaviour {
         GameObject tempTestRead = Instantiate(TestRead, Vector3.zero, transform.rotation);//生成新的TestRead来控制脚本读取剧本
     }
 
+    private void SaveProfileGrid()
+    {
+        GameObject SceneBgPicture = GameObject.Find("SceneBg");
+        GameObject ProfileBgPicture = transform.Find("Bg").transform.Find("ProfilePicture").gameObject;
+        GameObject PersonPicture = transform.Find("Bg").transform.Find("PersonPictureMask").transform.Find("PersonPicture").gameObject;
+        GameObject Time = transform.Find("Bg").transform.Find("Information").transform.Find("Time").gameObject;
+        GameObject TreatmentName = transform.Find("Bg").transform.Find("Information").transform.Find("TreatmentName").gameObject;
+        GameObject Treatment = transform.Find("Bg").transform.Find("Information").transform.Find("Treatment").gameObject;
+        //其实这上面完全可以拖。。。
+
+        //然后对存档格的文字和图片进行相应的更改
+        ProfileBgPicture.GetComponent<Image>().sprite = SceneBgPicture.GetComponent<Image>().sprite;
+        PersonPicture.GetComponent<Image>().sprite = GameObject.Find("CenterPerson").GetComponent<Image>().sprite;
+        Time.GetComponent<Text>().text = DateTime.Now.ToString("yyyy-MM-dd   ") + DateTime.Now.ToShortTimeString();
+        TreatmentName.GetComponent<Text>().text = TreatmentController._instance.treatmentName;
+        Treatment.GetComponent<Text>().text = "【" + TreatmentController._instance.currentPersonName + "】 " + TreatmentController._instance.currentTreatmentText;
+
+        //进行存档，存档名为当前存档格在父物体中作为子物体的下标，也就是第几个，从0开始数
+        GameController._instance.SaveData(transform.GetSiblingIndex().ToString());
+    }
+
+    private void LoadProfileGrid()
+    {
+        //读取存档
+        GameController._instance.LoadData(transform.GetSiblingIndex().ToString());
+    }
+    private void DialougueEmpty()
+    {
+        string dialogText = transform.Find("LogBg").transform.Find("Text").GetComponent<Text>().text;
+        dialogText = dialogText.Substring(dialogText.LastIndexOf('[') + 1, dialogText.LastIndexOf(']') - dialogText.LastIndexOf('[') - 1);
+        Debug.Log("临时文本:" + dialogText);
+        int tempIndex = TreatmentController._instance.FindIndexByText(dialogText);//通过当前log的文本来寻找index
+        Debug.Log("当前log对应行数为:" + tempIndex);
+        TreatmentController._instance.ReadTreatment(TreatmentController._instance.treatmentName, tempIndex);
+        UIController._instance.OpenLogs();
+
+    }
 
     IEnumerator LoadingUICoroutine()
     {
@@ -145,44 +183,17 @@ public class Buttons : MonoBehaviour {
         }
         if (gameObject.name.StartsWith("SaveProfileGrid"))//点击存档按钮,因为存档按钮是实例化在gridLayout中的，所以名字都有规律，所以以这个前缀开头的就是存档按钮
         {
-            GameObject SceneBgPicture =GameObject.Find("SceneBg");
-            GameObject ProfileBgPicture = transform.Find("Bg").transform.Find("ProfilePicture").gameObject;
-            GameObject PersonPicture= transform.Find("Bg").transform.Find("PersonPictureMask").transform.Find("PersonPicture").gameObject;
-            GameObject Time = transform.Find("Bg").transform.Find("Information").transform.Find("Time").gameObject;
-            GameObject TreatmentName = transform.Find("Bg").transform.Find("Information").transform.Find("TreatmentName").gameObject;
-            GameObject Treatment = transform.Find("Bg").transform.Find("Information").transform.Find("Treatment").gameObject;
-            //其实这上面完全可以拖。。。
-
-            //然后对存档格的文字和图片进行相应的更改
-            ProfileBgPicture.GetComponent<Image>().sprite = SceneBgPicture.GetComponent<Image>().sprite;
-            PersonPicture.GetComponent<Image>().sprite = GameObject.Find("CenterPerson").GetComponent<Image>().sprite;
-            Time.GetComponent<Text>().text = DateTime.Now.ToString("yyyy-MM-dd   ")+DateTime.Now.ToShortTimeString();
-            TreatmentName.GetComponent<Text>().text = TreatmentController._instance.treatmentName;
-            Treatment.GetComponent<Text>().text = "【"+ TreatmentController._instance.currentPersonName+"】 "+TreatmentController._instance.currentTreatmentText;
-
-            //进行存档，存档名为当前存档格在父物体中作为子物体的下标，也就是第几个，从0开始数
-            GameController._instance.SaveData(transform.GetSiblingIndex().ToString());
+            SaveProfileGrid();
 
         }
         if (gameObject.name.StartsWith("LoadProfileGrid"))
         {
-            //读取存档
-            GameController._instance.LoadData(transform.GetSiblingIndex().ToString());
+            LoadProfileGrid();
         }
         if(gameObject.name.StartsWith("DialougueEmpty"))//文本回想
         {
-            
-            string dialogText = transform.Find("LogBg").transform.Find("Text").GetComponent<Text>().text;
-            dialogText = dialogText.Substring(dialogText.LastIndexOf('[')+1, dialogText.LastIndexOf(']') - dialogText.LastIndexOf('[')-1);
-            Debug.Log("临时文本:" + dialogText);
-            int tempIndex = TreatmentController._instance.FindIndexByText(dialogText);//通过当前log的文本来寻找index
-            Debug.Log("当前log对应行数为:" + tempIndex);
-            TreatmentController._instance.ReadTreatment(TreatmentController._instance.treatmentName, tempIndex);
-            UIController._instance.OpenLogs();
-
+            DialougueEmpty();
 
         }
-
-
-        }
+    }
 }
