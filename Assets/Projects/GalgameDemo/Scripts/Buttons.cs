@@ -20,7 +20,7 @@ public class Buttons : MonoBehaviour {
 
     private void AddListener()
     {
-        qualityManager = GameObject.Find("QualityManager");
+
         Toggle VSynctoggle = GameObject.Find("VsyncSettings").GetComponent<Toggle>();
         VSynctoggle.onValueChanged.AddListener(OnVSynctoggleToggleValueChanged);
     }
@@ -31,6 +31,7 @@ public class Buttons : MonoBehaviour {
     }
     private void Start()
     {
+        qualityManager = GameObject.Find("QualityManager");
         AddListener();
 
     }
