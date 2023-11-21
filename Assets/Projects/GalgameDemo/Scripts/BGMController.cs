@@ -5,7 +5,7 @@ using UnityEngine;
 public class BGMController : MonoBehaviour {
     
     public static BGMController _instance;
-    public float Volume=0.6f;
+    [Range(0, 1)] public float Volume =0.6f;
 	// Use this for initialization
 	void Awake () {
         _instance = this;

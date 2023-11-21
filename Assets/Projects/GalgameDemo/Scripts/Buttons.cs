@@ -18,7 +18,7 @@ public class Buttons : MonoBehaviour {
     public GameObject qualityManager;
     // Use this for initialization
 
-    private void AddListener()
+    private void AddVSynctoggleListener()
     {
 
         Toggle VSynctoggle = GameObject.Find("VsyncSettings").GetComponent<Toggle>();
@@ -28,14 +28,9 @@ public class Buttons : MonoBehaviour {
     {
         SaveProfliePanel = GameObject.Find("SaveProfliePanel");
         LoadProfliePanel = GameObject.Find("LoadProfliePanel");
-    }
-    private void Start()
-    {
         qualityManager = GameObject.Find("QualityManager");
-        AddListener();
-
     }
-    
+
 
     public void OnVSynctoggleToggleValueChanged(bool isOn)
     {
@@ -178,6 +173,7 @@ public class Buttons : MonoBehaviour {
             case "Settings"://打开设置面板
                 SettingsPanel.SetActive(true);
                 UIController._instance.InitSettingsPanel();
+                AddVSynctoggleListener();
                 break;
             case "MainMenuButton":
                 //回到主界面
