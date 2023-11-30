@@ -179,7 +179,7 @@ public class TreatmentController : MonoBehaviour {
         }
 
         info = tempText.Split('|');
-        //Debug.Log("读取第" + line + "行,info[0]="+info[0]+",info[1]="+info[1]+ ",info[2]=" + info[2]);
+        Debug.Log("读取第" + line + "行,info[0]="+info[0]+",info[1]="+info[1]+ ",info[2]=" + info[2]);
         currentPersonName = info[0];
         currentTreatmentText = info[1];
         currentPersonPicturePath = info[2];//由于人物是“我”或者主人公名字是或者路径是"null"时不会获取到的人物图片路径是无法使用的
