@@ -18,7 +18,7 @@ public class Buttons : MonoBehaviour {
     public GameObject qualityManager;
     // Use this for initialization
 
-    private void AddVSynctoggleListener()
+    private void AddSettingsToggleListener()
     {
 
         Toggle VSynctoggle = GameObject.Find("VsyncSettings").GetComponent<Toggle>();
@@ -173,12 +173,13 @@ public class Buttons : MonoBehaviour {
             case "Settings"://打开设置面板
                 SettingsPanel.SetActive(true);
                 UIController._instance.InitSettingsPanel();
-                AddVSynctoggleListener();
+                AddSettingsToggleListener();
                 break;
             case "MainMenuButton":
                 //回到主界面
                 MainMenuPanel.SetActive(true);
                 Destroy(GameObject.Find("TestRead"));//销毁TestRead，避免下次再进入游戏时出现两个TestRead
+                StopCoroutine(LoadingUICoroutine());
                 transform.parent.gameObject.SetActive(false);//关闭设置面板
                 break;
 
